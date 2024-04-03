@@ -4,10 +4,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  runs-on: ubuntu-latest
-  steps:
-  - name: test
-    uses: comet-ml/push-files@latest
-    with:
-      files: '[]'
-      github_token: token
+  first:
+    runs-on: ubuntu-latest
+    steps:
+    - name: test
+      uses: comet-ml/push-files@main
+      with:
+        files: '[]'
+        github_token: token
