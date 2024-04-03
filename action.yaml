@@ -36,5 +36,5 @@ runs:
     shell: bash
     run: |
       # upload files to repo
-      echo ${{ inputs.files }} | jq .
+      echo '${{ inputs.files }}' | jq .
 
