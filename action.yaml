@@ -24,7 +24,7 @@ inputs:
     description: The tocken authorized to write contents
     required: true
   files:
-    description: 'json list with source and destination [{src: "xx1", dst: "yy1"}, .. {src: "xxN", dst: "yyN"}]'
+    description: 'json list with source and destination src1:dst1, .. srcN:dstN'
     required: true
 
   
@@ -36,5 +36,10 @@ runs:
     shell: bash
     run: |
       # upload files to repo
-      echo '${{ inputs.files }}' | jq .
+      FILES=$(echo '${{ inputs.files }}' | tr ',' ' ')
+      for f in ${FILES} ; do
+        src=${f%%:*}
+        dst=${f##*:}
+        echo "$src -> $dst"
+      done
 
