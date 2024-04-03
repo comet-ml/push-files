@@ -1,0 +1,40 @@
+name: Push to GitHub repository
+description: push files to github repository without cloning. the runner must contain curl and jq
+inputs:
+  branch:
+    description: Git branch name, where changes should be pushed too. Required if Action is used on the `pull_request` event
+    required: false
+    default: ${{ github.head_ref }}
+  commit_message:
+    description: Commit message
+    required: false
+    default: Apply automatic changes
+  repository:
+    description: Local file path to the git repository. Defaults to the current directory (`.`)
+    required: false
+    default: '.'
+  commit_user_name:
+    description: Name used for the commit user
+    required: false
+    default: github-actions[bot]
+  commit_user_email:
+    description: Email address used for the commit user
+    required: false
+    default: 41898283+github-actions[bot]@users.noreply.github.com
+  github_token:
+    description: The tocken authorized to write contents
+    required: true
+  files:
+    description: 'json list with source and destination [{src: "xx1", dst: "yy1"}, .. {src: "xxN", dst: "yyN"}]'
+    required: true
+
+  
+outputs: {}
+runs:
+  using: composite
+  steps:
+  - name: push files
+    shell: bash
+    run: |
+      # upload files to repo
+
