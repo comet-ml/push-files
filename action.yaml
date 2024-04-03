@@ -11,8 +11,7 @@ inputs:
     default: Apply automatic changes
   repository:
     description: Local file path to the git repository. Defaults to the current directory (`.`)
-    required: false
-    default: '.'
+    required: true
   commit_user_name:
     description: Name used for the commit user
     required: false
