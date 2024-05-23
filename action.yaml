@@ -52,6 +52,9 @@ runs:
         SRC=${f%%:*}
         DST=${f##*:}
         echo "$SRC -> ${REPO}:$DST"
+        if [ -n "${{ inputs.branch }}" ] ; then
+          extra_query='?ref=${{ inputs.branch }}'
+        fi
 
         # get sha of existing file (if it exists)
         SHASUM=$(curl --location --silent --request GET \
