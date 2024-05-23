@@ -69,12 +69,21 @@ runs:
         jq -Rsc '{content: (. | @base64), message: "${{ inputs.commit_message }}", committer: {name: "${{ inputs.commit_user_name }}", email: "${{ inputs.commit_user_email }}"}, branch: "${{ inputs.branch }}", sha: "'${SHASUM}'" }' < "${SRC}" > ${PAYLOAD}
         
         # push file to repo
-        curl --location --silent --request PUT \
+        STATUSCODE=$(curl --location --silent --request PUT \
           --header "Authorization: Bearer ${GITHUB_TOKEN}" \
           --header "Accept: application/vnd.github+json" \
           --header "X-GitHub-Api-Version: 2022-11-28" \
           --data @${PAYLOAD} \
-          https://api.github.com/repos/${REPO}/contents/${DST}
+          --output response.txt --write-out "%{response_code}" \
+          https://api.github.com/repos/${REPO}/contents/${DST})
+
+        case ${STATUSCODE} in
+          2*) ;;
+          *)
+            cat response.txt
+            exit ${STATUSCODE}
+            ;;
+        esac
 
         rm -f ${PAYLOAD}
       done
