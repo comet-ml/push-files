@@ -63,7 +63,7 @@ runs:
         # create payload
         PAYLOAD=$(mktemp)
 
-        jq -Rsc '{content: (. | @base64), message: "${{ inputs.commit_message }}", committer: {name: "${{ inputs.commit_user_name }}", email: "${{ inputs.commit_user_email }}", branch: "${{ inputs.branch }}"}, sha: "'${SHASUM}'" }' < "${SRC}" > ${PAYLOAD}
+        jq -Rsc '{content: (. | @base64), message: "${{ inputs.commit_message }}", committer: {name: "${{ inputs.commit_user_name }}", email: "${{ inputs.commit_user_email }}"}, branch: "${{ inputs.branch }}", sha: "'${SHASUM}'" }' < "${SRC}" > ${PAYLOAD}
         
         # push file to repo
         curl --location --silent --request PUT \
